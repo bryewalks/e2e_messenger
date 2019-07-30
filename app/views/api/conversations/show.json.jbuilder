@@ -1,0 +1,1 @@
+json.partial! @conversation, partial: "conversation", as: :conversation
