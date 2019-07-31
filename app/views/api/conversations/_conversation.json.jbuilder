@@ -1,6 +1,10 @@
 json.id conversation.id
 json.created_at conversation.formatted_date
-json.author_id conversation.author.id
-json.author_name conversation.author.name
-json.receiver_id conversation.receiver.id
-json.receiver_name conversation.receiver.name
+
+json.author do
+  json.partial! conversation.author, partial: "api/users/user", as: :user
+end
+
+json.receiver do
+  json.partial! conversation.receiver, partial: "api/users/user", as: :user
+end
