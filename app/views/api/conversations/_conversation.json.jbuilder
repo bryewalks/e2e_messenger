@@ -8,3 +8,7 @@ end
 json.receiver do
   json.partial! conversation.receiver, partial: "api/users/user", as: :user
 end
+
+json.messages do
+  json.array! conversation.messages, partial: "api/messages/message", as: :message
+end
