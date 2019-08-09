@@ -5,13 +5,12 @@ class Api::ConversationsController < ApplicationController
   end
 
   def create
-    @conversation = Conversation.new(conversation_params)
-
-    if @conversation.save
-      render 'show.json.jbuilder'
+    if Conversation.between(current_user.id,params[:receiver_id]).present?
+      @conversation = Conversation.between(current_user.id,params[:receiver_id]).first
     else
-      render json: {errors: @conversation.errors.full_messages}, status: :unprocessable_entity
+      @conversation = Conversation.create!(conversation_params)
     end
+    render 'show.json.jbuilder'
   end
   
   def show
@@ -32,15 +31,4 @@ class Api::ConversationsController < ApplicationController
       .permit(:receiver_id)
       .merge(author_id: current_user.id)
   end
-
-  # def find_conversation!
-  #   if params[:receiver_id]
-  #     @receiver = User.find_by(id: params[:receiver_id])
-  #     redirect_to(root_path) and return unless @receiver
-  #     @conversation = Conversation.between(current_user.id, @receiver.id)[0]
-  #   else
-  #     @conversation = Conversation.find_by(id: params[:conversation_id])
-  #     redirect_to(root_path) and return unless @conversation && @conversation.participates?(current_user)
-  #   end
-  # end
 end
