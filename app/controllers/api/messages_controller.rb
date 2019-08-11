@@ -1,12 +1,11 @@
 class Api::MessagesController < ApplicationController
   def index
-    @messages = Message.all
+    @messages = Message.find_by(conversation_id: params[:conversation_id])
     render 'index.json.jbuilder'
   end
 
   def create
     @message = Message.new(message_params)
-
     if @message.save
       render 'show.json.jbuilder'
     else
