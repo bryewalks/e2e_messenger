@@ -1,4 +1,6 @@
 class Api::MessagesController < ApplicationController
+  wrap_parameters :messages, include: [:conversation_id, :body, :user_id]
+  
   def index
     @messages = Message.find_by(conversation_id: params[:conversation_id])
     render 'index.json.jbuilder'
