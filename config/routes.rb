@@ -2,7 +2,8 @@ Rails.application.routes.draw do
   namespace :api do
     resources :users, only: [:create]
     resources :sessions, only: [:create]
-    resources :messages
-    resources :conversations
+    resources :conversations do
+      resources :messages
+    end
   end
 end

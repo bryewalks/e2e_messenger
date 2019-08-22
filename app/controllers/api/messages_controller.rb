@@ -1,6 +1,9 @@
 class Api::MessagesController < ApplicationController
-  def index
-    @messages = Message.where(conversation_id: params[:conversation_id])
+  before_action :set_conversation, only: :index
+  before_action :authorize_user, only: :index
+
+  def index    
+    @messages = @conversation.messages
     render 'index.json.jbuilder'
   end
 
@@ -20,5 +23,15 @@ class Api::MessagesController < ApplicationController
       .require(:message)
       .permit(:conversation_id, :body)
       .merge(user_id: current_user.id)
+  end
+
+  def set_conversation
+    @conversation = Conversation.find(params[:conversation_id])
+  end
+
+  def authorize_user
+    unless @conversation.receiver_id == current_user.id || @conversation.author_id == current_user.id
+      render json: {}, status: :unauthorized
+    end 
   end
 end
