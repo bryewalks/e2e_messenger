@@ -21,8 +21,8 @@ class Api::MessagesController < ApplicationController
   def message_params
     params
       .require(:message)
-      .permit(:conversation_id, :body)
-      .merge(user_id: current_user.id)
+      .permit(:body)
+      .merge(conversation_id: params[:conversation_id], user_id: current_user.id)
   end
 
   def set_conversation
