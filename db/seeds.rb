@@ -25,3 +25,6 @@ user_array.each do |user|
     end
   end
 end
+
+User.create({name: 'phuoc', email: 'phuoc@gmail.com', password: 'password'})
+Conversation.create({author_id: '1', receiver_id: '5'})
