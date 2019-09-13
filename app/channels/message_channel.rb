@@ -11,7 +11,7 @@ class MessageChannel < ApplicationCable::Channel
     Message.create!({
                       body: opts.fetch('body'),
                       conversation_id: opts.fetch('conversation_id'),
-                      user_id: opts.fetch('user_id')
-                      })
+                      user_id: current_user.id
+                    })
   end
 end

@@ -6,8 +6,4 @@ class Message < ApplicationRecord
   after_create_commit do
     MessageCreationEventBroadcastJob.perform_later(self)
   end
-
-  def current_user?(input_user)
-    self.user == input_user
-  end
 end

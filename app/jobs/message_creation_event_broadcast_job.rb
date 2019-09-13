@@ -4,11 +4,10 @@ class MessageCreationEventBroadcastJob < ApplicationJob
   def perform(message)
     ActionCable
       .server
-      .broadcast('message_channel',
-                  id: message.id,
-                  name: message.user.name,
-                  user: message.user.id,
-                  # created_at: message.created_at.strftime('%H:%M'),
-                  body: message.body)
+      .broadcast('message_channel', render_message(message))
+  end
+
+  def render_message(message)
+    ApplicationController.renderer.render(partial: 'api/messages/message', locals: { message: message })
   end
 end
