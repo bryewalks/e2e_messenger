@@ -9,7 +9,7 @@ class Api::MessagesController < ApplicationController
 
   def create
     @message = Message.new(message_params)
-    if @message.save
+    if @message.save!
       render 'show.json.jbuilder'
     else
       render json: {errors: @article.errors.full_messages}, status: :unprocessable_entity
