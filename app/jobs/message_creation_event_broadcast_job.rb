@@ -4,7 +4,7 @@ class MessageCreationEventBroadcastJob < ApplicationJob
   def perform(message)
     ActionCable
       .server
-      .broadcast('message_channel', render_message(message))
+      .broadcast("conversation-#{message.conversation_id}:messages", render_message(message))
   end
 
   def render_message(message)
