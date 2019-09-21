@@ -14,7 +14,7 @@ class Api::UsersController < ApplicationController
       render json: {errors: "Search term cannot be blank"}, status: :bad_request
     else
       parameter = params[:search].downcase
-      @users = User.where('lower(name) LIKE ?', parameter)
+      @users = User.where('lower(name) LIKE ? AND id != ?', parameter, current_user.id)
       render 'index.json.jbuilder'
     end
   end
