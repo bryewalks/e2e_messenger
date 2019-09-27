@@ -8,10 +8,13 @@ class MessageChannel < ApplicationCable::Channel
   end
 
   def create(message)
-    Message.create!({
-                      body: message.fetch('body'),
-                      conversation_id: params['conversationId'],
-                      user_id: current_user.id
-                    })
+    new_message = Message.new({
+                  body: message.fetch('body'),
+                  conversation_id: params['conversationId'],
+                  user_id: current_user.id})
+    new_message.encrypt_body(params['conversation_password'])
+    new_message.save
+    new_message.body = new_message.decrypt_body(params['conversation_password'])
+    MessageCreationEventBroadcastJob.perform_now(new_message)
   end
 end
