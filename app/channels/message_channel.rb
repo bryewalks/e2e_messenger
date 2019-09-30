@@ -14,7 +14,7 @@ class MessageChannel < ApplicationCable::Channel
                   user_id: current_user.id})
     new_message.encrypt_body(params['conversation_password'])
     new_message.save
-    new_message.body = new_message.decrypt_body(params['conversation_password'])
+    new_message.decrypt_body(params['conversation_password'])
     MessageCreationEventBroadcastJob.perform_now(new_message)
   end
 end
