@@ -9,7 +9,7 @@ require 'faker'
 
 User.create([{name: 'brye', email: 'brye@gmail.com', password: 'password'}, {name: 'jack', email: 'jack@gmail.com', password: 'password'}, {name: 'john', email: 'john@gmail.com', password: 'password'}, {name: 'jay', email: 'jay@gmail.com', password: 'password'}])
 
-Conversation.create([{author_id: '1', receiver_id: '2', password_digest: "password"},{author_id: '1', receiver_id: '3', password_digest: "password"},{author_id: '1', receiver_id: '4', password_digest: "password"},{author_id: '2', receiver_id: '3', password_digest: "password"},{author_id: '2', receiver_id: '4', password_digest: "password"},{author_id: '3', receiver_id: '4', password_digest: "password"}])
+Conversation.create([{author_id: '1', receiver_id: '2', password: "password"},{author_id: '1', receiver_id: '3', password: "password"},{author_id: '1', receiver_id: '4', password: "password"},{author_id: '2', receiver_id: '3', password: "password"},{author_id: '2', receiver_id: '4', password: "password"},{author_id: '3', receiver_id: '4', password: "password"}])
 
 # Create back and fourth messages between all users.
 user_array = [1,2,3,4]
@@ -29,4 +29,10 @@ user_array.each do |user|
 end
 
 User.create({name: 'phuoc', email: 'phuoc@gmail.com', password: 'password'})
-Conversation.create({author_id: '1', receiver_id: '5', password_digest: "password"})
+# Conversation.create({author_id: '1', receiver_id: '5', password: "password"})
+
+messages = Message.all
+messages.each do |message|
+  message.encrypt_body("password")
+  message.save
+end
