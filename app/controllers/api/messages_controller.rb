@@ -1,9 +1,10 @@
 class Api::MessagesController < ApplicationController
   before_action :set_conversation, only: :index
   before_action :authorize_user, only: :index
+  before_action :authenticate_conversation, only: :index
 
-  def index    
-    @messages = @conversation.messages
+  def index
+    @messages = decrypted_messages
     render 'index.json.jbuilder'
   end
 
@@ -29,9 +30,19 @@ class Api::MessagesController < ApplicationController
     @conversation = Conversation.find(params[:conversation_id])
   end
 
+  def decrypted_messages
+    @conversation.messages.each{ |message| message.decrypt_body(params[:conversation_password]) }
+  end
+
   def authorize_user
     unless @conversation.receiver_id == current_user.id || @conversation.author_id == current_user.id
       render json: {}, status: :unauthorized
     end 
+  end
+
+  def authenticate_conversation
+    unless @conversation.authenticate(params[:conversation_password])
+      render json: {}, status: :unauthorized
+    end
   end
 end

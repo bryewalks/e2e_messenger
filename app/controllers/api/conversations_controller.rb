@@ -28,7 +28,7 @@ class Api::ConversationsController < ApplicationController
   def conversation_params
     params
       .require(:conversation)
-      .permit(:receiver_id)
+      .permit(:receiver_id, :password, :password_confirmation)
       .merge(author_id: current_user.id)
   end
 end
