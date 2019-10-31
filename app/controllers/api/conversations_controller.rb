@@ -1,4 +1,6 @@
 class Api::ConversationsController < ApplicationController
+  wrap_parameters :conversation, include: [:receiver_id, :password, :password_confirmation]
+
   def index
     @conversations = Conversation.participating(current_user).order('updated_at DESC')
     render 'index.json.jbuilder'
