@@ -9,13 +9,18 @@ class Api::UsersController < ApplicationController
     end
   end
 
+  #refactor this
   def search
     if params[:search].blank?
       render json: {errors: "Search term cannot be blank"}, status: :bad_request
     else
       parameter = params[:search].downcase
       @users = User.where('lower(name) LIKE ? AND id != ?', parameter, current_user.id)
-      render 'index.json.jbuilder'
+      unless Conversation.between(current_user.id, @users.first).first
+        render 'index.json.jbuilder'
+      else
+        render json: {error: "User not found"}, status: :not_found
+      end
     end
   end
 
