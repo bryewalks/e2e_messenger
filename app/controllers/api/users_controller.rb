@@ -9,6 +9,16 @@ class Api::UsersController < ApplicationController
     end
   end
 
+  
+  # def search
+  #   name = params[:search].downcase
+  #   @user = User.find_by_name(name)
+  #   if Conversation.between(current_user.id, @user.id).first
+  #     render json: {error: "User not found"}, status: :not_found
+  #   else
+  #     render 'show.json.jbuilder'
+  #   end
+  # end
   #refactor this
   def search
     if params[:search].blank?
