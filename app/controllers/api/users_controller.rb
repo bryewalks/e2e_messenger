@@ -9,28 +9,13 @@ class Api::UsersController < ApplicationController
     end
   end
 
-  
-  # def search
-  #   name = params[:search].downcase
-  #   @user = User.find_by_name(name)
-  #   if Conversation.between(current_user.id, @user.id).first
-  #     render json: {error: "User not found"}, status: :not_found
-  #   else
-  #     render 'show.json.jbuilder'
-  #   end
-  # end
-  #refactor this
   def search
-    if params[:search].blank?
-      render json: {errors: "Search term cannot be blank"}, status: :bad_request
+    name = params[:search].downcase
+    @user = User.find_by({name: name})
+    if Conversation.between(current_user.id, @user.id).first || @user.id === current_user.id
+      render json: {error: "User not found"}, status: :not_found
     else
-      parameter = params[:search].downcase
-      @users = User.where('lower(name) LIKE ? AND id != ?', parameter, current_user.id)
-      unless Conversation.between(current_user.id, @users.first).first
-        render 'index.json.jbuilder'
-      else
-        render json: {error: "User not found"}, status: :not_found
-      end
+      render 'show.json.jbuilder'
     end
   end
 
