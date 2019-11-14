@@ -42,7 +42,7 @@ class Api::MessagesController < ApplicationController
 
   def authenticate_conversation
     unless @conversation.authenticate(params[:conversation_password])
-      render json: {}, status: :unauthorized
+      render json: {errors: 'Invalid Password'}, status: :unauthorized
     end
   end
 end
