@@ -14,7 +14,7 @@ class Api::UsersController < ApplicationController
   def search
     name = params[:search].downcase
     @user = User.find_by({name: name})
-    if Conversation.between(current_user.id, @user.id).first || @user.id === current_user.id
+    if !@user || Conversation.between(current_user.id, @user.id).first || @user.id === current_user.id
       render json: {error: "User not found"}, status: :not_found
     else
       render 'show.json.jbuilder'
