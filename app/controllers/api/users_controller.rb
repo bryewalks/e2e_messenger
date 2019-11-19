@@ -1,5 +1,5 @@
 class Api::UsersController < ApplicationController
-  wrap_parameters :user, include: [:name, :email, :password, :password_confirmation]
+  wrap_parameters :user, include: [:name, :password, :password_confirmation]
   
   def create
     user = User.new(user_params)
@@ -26,7 +26,7 @@ class Api::UsersController < ApplicationController
   def user_params
     params
       .require(:user)
-      .permit(:name, :email, :password, :password_confirmation)
+      .permit(:name, :password, :password_confirmation)
   end
   
 end

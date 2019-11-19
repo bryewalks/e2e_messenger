@@ -7,7 +7,7 @@ require 'faker'
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 
-User.create([{name: 'brye', email: 'brye@gmail.com', password: 'password'}, {name: 'jack', email: 'jack@gmail.com', password: 'password'}, {name: 'john', email: 'john@gmail.com', password: 'password'}, {name: 'jay', email: 'jay@gmail.com', password: 'password'}])
+User.create([{name: 'brye', password: 'password'}, {name: 'jack', password: 'password'}, {name: 'john', password: 'password'}, {name: 'jay', password: 'password'}])
 
 Conversation.create([{author_id: '1', receiver_id: '2', password: "password"},{author_id: '1', receiver_id: '3', password: "password"},{author_id: '1', receiver_id: '4', password: "password"},{author_id: '2', receiver_id: '3', password: "password"},{author_id: '2', receiver_id: '4', password: "password"},{author_id: '3', receiver_id: '4', password: "password"}])
 
@@ -21,18 +21,11 @@ user_array.each do |user|
     conversation = Conversation.where('(author_id = ? AND receiver_id = ?) OR (author_id = ? AND receiver_id = ?)', user, receiver, receiver, user).first
     5.times do 
       message = Message.new(user_id: user, conversation_id: conversation.id, body: Faker::Hacker.say_something_smart)
+      message.encrypt_body("password")
       message.save
       message = Message.new(user_id: receiver, conversation_id: conversation.id, body: Faker::Hacker.say_something_smart)
+      message.encrypt_body("password")
       message.save
     end
   end
-end
-
-User.create({name: 'phuoc', email: 'phuoc@gmail.com', password: 'password'})
-# Conversation.create({author_id: '1', receiver_id: '5', password: "password"})
-
-messages = Message.all
-messages.each do |message|
-  message.encrypt_body("password")
-  message.save
 end
