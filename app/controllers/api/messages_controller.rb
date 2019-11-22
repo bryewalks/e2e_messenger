@@ -31,7 +31,12 @@ class Api::MessagesController < ApplicationController
   end
 
   def decrypted_messages
-    @conversation.messages.each{ |message| message.decrypt_body(params[:conversation_password]) }
+    @conversation.messages.each do  |message|
+      unless message.user == current_user
+        message.mark_read
+      end
+      message.decrypt_body(params[:conversation_password]) 
+    end
   end
 
   def authorize_user

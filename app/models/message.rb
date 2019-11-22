@@ -17,4 +17,9 @@ class Message < ApplicationRecord
     crypt = ActiveSupport::MessageEncryptor.new(key)
     self.body = crypt.decrypt_and_verify(self.body)
   end
+
+  def mark_read
+    self.read_at ||= Time.now
+    save
+  end
 end
