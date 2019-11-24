@@ -8,6 +8,6 @@ class ConversationCreationEventBroadcastJob < ApplicationJob
   end
 
   def render_conversation(conversation)
-    ApplicationController.renderer.render('api/conversations/websocket', locals: { conversation: conversation })
+    ApplicationController.renderer.render('api/conversations/websocket', locals: { conversation: conversation, action: 'created' })
   end
 end
