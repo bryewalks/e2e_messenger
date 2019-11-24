@@ -1,11 +1,14 @@
 json.id conversation.id
 json.created_at conversation.formatted_date
 json.unread_messages conversation.unread_messages?(current_user)
+json.action action
 
 json.author do
-  json.partial! conversation.get_user(current_user, conversation.author), partial: "api/users/user", as: :user
+  json.name conversation.author.name
+  json.id conversation.author.id
 end
 
 json.receiver do
-  json.partial! conversation.get_user(current_user, conversation.receiver), partial: "api/users/user", as: :user
+  json.name conversation.receiver.name
+  json.id conversation.receiver.id
 end

@@ -1,1 +1,1 @@
-json.partial! @conversation, partial: "conversation", as: :conversation
+json.partial! @conversation, partial: "conversation", as: :conversation, locals: {action: 'none'}

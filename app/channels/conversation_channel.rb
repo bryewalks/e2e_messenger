@@ -23,6 +23,6 @@ class ConversationChannel < ApplicationCable::Channel
                                             author_id: current_user.id
                                           )
     end
-    ConversationCreationEventBroadcastJob.perform_now(conversation, current_user)
+    ConversationCreationEventBroadcastJob.perform_now(conversation)
   end
 end
