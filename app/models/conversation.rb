@@ -17,10 +17,6 @@ class Conversation < ApplicationRecord
     created_at.strftime("%b %d, %Y")
   end
 
-  def get_user(current_user, input_user)
-    current_user.id == input_user.id ? author : receiver
-  end
-
   def unread_messages?(current_user)
     last_message = self.messages.where.not("user_id = ?", current_user.id).last
     if last_message

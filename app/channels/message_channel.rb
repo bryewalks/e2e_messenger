@@ -7,14 +7,14 @@ class MessageChannel < ApplicationCable::Channel
     # Any cleanup needed when channel is unsubscribed
   end
 
-  def create(message)
-    new_message = Message.new({
-                  body: message.fetch('body'),
+  def create(input_message)
+    message = Message.new({
+                  body: input_message.fetch('body'),
                   conversation_id: params['conversation_id'],
                   user_id: current_user.id})
-    new_message.encrypt_body(params['message_password'])
-    new_message.save
-    new_message.decrypt_body(params['message_password'])
-    MessageCreationEventBroadcastJob.perform_now(new_message)
+    message.encrypt_body(params['message_password'])
+    message.save
+    message.decrypt_body(params['message_password'])
+    MessageCreationEventBroadcastJob.perform_now(message)
   end
 end

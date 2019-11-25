@@ -1,1 +1,1 @@
-json.array! @conversations, partial: "conversation", as: :conversation
+json.array! @conversations, partial: "conversation", as: :conversation, locals: {action: 'none'}
