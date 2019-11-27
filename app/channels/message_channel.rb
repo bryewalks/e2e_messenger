@@ -16,5 +16,6 @@ class MessageChannel < ApplicationCable::Channel
     message.save
     message.decrypt_body(params['message_password'])
     MessageCreationEventBroadcastJob.perform_now(message)
+    ConversationAlertEventBroadcastJob.perform_now(message.conversation, current_user.id)
   end
 end

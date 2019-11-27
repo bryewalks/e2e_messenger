@@ -7,12 +7,12 @@ class Api::ConversationsController < ApplicationController
   end
 
   def create
-    if Conversation.between(current_user.id,params[:receiver_id]).present?
-      @conversation = Conversation.between(current_user.id,params[:receiver_id]).first
-    else
-      @conversation = Conversation.create!(conversation_params)
+    @conversation = Conversation.new(conversation_params)
+    
+    if @conversation.save
+      ConversationCreationEventBroadcastJob.perform_now(@conversation)
+      render 'show.json.jbuilder'
     end
-    render 'show.json.jbuilder'
   end
   
   def show

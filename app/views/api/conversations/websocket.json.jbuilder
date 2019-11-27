@@ -1,9 +1,14 @@
-json.action action
 json.id conversation.id
 json.created_at conversation.formatted_date
-json.unread_messages true
+json.unread_messages conversation.unread_messages?(current_user)
+json.action action
+
+json.author do
+  json.name conversation.author.name
+  json.id conversation.author.id
+end
 
 json.receiver do
-  json.id conversation.author.id
-  json.name conversation.author.name
+  json.name conversation.receiver.name
+  json.id conversation.receiver.id
 end

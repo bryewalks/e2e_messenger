@@ -1,7 +1,6 @@
 json.id conversation.id
 json.created_at conversation.formatted_date
 json.unread_messages conversation.unread_messages?(current_user)
-json.action action
 
 json.author do
   json.name conversation.author.name
